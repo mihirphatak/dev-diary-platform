@@ -13,7 +13,7 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([])
 
   useEffect(() => {
-    fetch(`${process.env.BACKEND_URL}/projects`)
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/projects`)
       .then(res => res.json())
       .then(data => setProjects(data))
   }, [])
