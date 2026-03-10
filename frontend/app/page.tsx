@@ -2,20 +2,33 @@
 
 import { useEffect, useState } from "react"
 
-export default function Home() {
-  const [message, setMessage] = useState("Loading...")
+type Project = {
+  id: number
+  name: string
+  description: string
+  github_url: string
+}
+
+export default function ProjectsPage() {
+  const [projects, setProjects] = useState<Project[]>([])
 
   useEffect(() => {
-    fetch("http://localhost:8000")
+    fetch(`${process.env.BACKEND_URL}/projects`)
       .then(res => res.json())
-      .then(data => setMessage(data.message))
-      .catch(() => setMessage("Backend not reachable"))
+      .then(data => setProjects(data))
   }, [])
 
   return (
     <main style={{ padding: "40px" }}>
-      <h1>Dev Diary Platform</h1>
-      <p>{message}</p>
+      <h1>Projects</h1>
+
+      {projects.map(project => (
+        <div key={project.id}>
+          <h2>{project.name}</h2>
+          <p>{project.description}</p>
+          <a href={project.github_url}>Github</a>
+        </div>
+      ))}
     </main>
   )
 }
